@@ -10,5 +10,9 @@ export default keyMirror({
   USER_START_TYPING: null,
 
   SERVER_STOP_TYPING: null,
-  SERVER_START_TYPING: null
+  SERVER_START_TYPING: null,
+
+  SERVER_USER_LOGINED: null,
+  SERVER_USER_JOINED: null,
+  SERVER_USER_LEFT: null
 });
