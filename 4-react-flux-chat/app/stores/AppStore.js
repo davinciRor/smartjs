@@ -5,7 +5,8 @@ const AppStore = new Store({
   _state: {
     name: null,
     messages: [],
-    typingUsers: []
+    typingUsers: [],
+    numUsers: 0
   }
 });
 
@@ -17,6 +18,37 @@ AppStore.bindActions(ActionTypes.USER_LOGINED, (action, state) => {
   AppStore.emitChange();
 });
 
+AppStore.bindActions(ActionTypes.SERVER_USER_LOGINED, (action, state) => {
+  let data = action.data;
+
+  state.numUsers = data.numUsers;
+
+  AppStore.emitChange();
+});
+
+AppStore.bindActions(ActionTypes.SERVER_USER_JOINED, (action, state) => {
+  let data = action.data;
+
+  state.messages.push({
+    id: 'joined',
+    username: data.username,
+    numUsers: data.numUsers
+  });
+
+  AppStore.emitChange();
+});
+
+AppStore.bindActions(ActionTypes.SERVER_USER_LEFT, (action, state) => {
+  let data = action.data;
+
+  state.messages.push({
+    id: 'left',
+    username: data.username,
+    numUsers: data.numUsers
+  });
+
+  AppStore.emitChange();
+});
 
 AppStore.bindActions(ActionTypes.MSG_SENDED, (action, state) => {
   let data = action.data;
@@ -31,22 +63,14 @@ AppStore.bindActions(ActionTypes.MSG_SENDED, (action, state) => {
   AppStore.emitChange();
 });
 
-
 AppStore.bindActions(ActionTypes.CHAT_UPDATE, (action, state) => {
   let data = action.data;
-  let username = data.username.username;
-  let message = data.message.message;
-  console.log('message: ', message)
-  let matches = message.match('(?:(?:ht|f)tps?://)?(?:[\\-\\w]+:[\\-\\w]+@)?(?:[0-9a-z][\\-0-9a-z]*[0-9a-z]\\.)+[a-z]{2,6}(?::\\d{1,5})?(?:[?/\\\\#][?!^$.(){}:|=[\\]+\\-/\\\\*;&~#@,%\\wА-Яа-я]*)?');
-  console.log('matches: ', matches)
+  let username = data.username;
+  let message = data.message;
 
   state.messages.push({
     username: username,
-    message: {
-      text: message,
-      //TODO: Set array of matched links
-      links: matches && matches[0] ? [matches[0]] : []
-    }
+    message: data
   });
 
   AppStore.emitChange();
@@ -54,7 +78,7 @@ AppStore.bindActions(ActionTypes.CHAT_UPDATE, (action, state) => {
 
 AppStore.bindActions(ActionTypes.SERVER_START_TYPING, (action, state) => {
   let data = action.data;
-  let username = data.username.username;
+  let username = data.username;
 
   if (state.typingUsers.indexOf(username) === -1) {
     state.typingUsers.push(username);
@@ -65,7 +89,7 @@ AppStore.bindActions(ActionTypes.SERVER_START_TYPING, (action, state) => {
 
 AppStore.bindActions(ActionTypes.SERVER_STOP_TYPING, (action, state) => {
   let data = action.data;
-  let username = data.username.username;
+  let username = data.username;
   let userIndex = state.typingUsers.indexOf(username);
 
   if (userIndex !== -1) {
@@ -74,6 +98,5 @@ AppStore.bindActions(ActionTypes.SERVER_STOP_TYPING, (action, state) => {
 
   AppStore.emitChange();
 });
-
 
 export default AppStore;
