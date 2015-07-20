@@ -1,3 +1,64 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  font-family:
+    "HelveticaNeue-Light",
+    "Helvetica Neue Light",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    "Lucida Grande",
+    sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4em;
+}
+
+
+.loginPage {
+  font-size: 18px;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+.loginPage__form {
+  height: 100px;
+  margin-top: -100px;
+  position: absolute;
+
+  text-align: center;
+  top: 50%;
+  width: 100%;
+}
+.title {
+  color: #fff;
+}
+.loginPage__form input {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #fff;
+  outline: none;
+  padding-bottom: 15px;
+  text-align: center;
+  width: 400px;
+  color: #fff;
+}
+
+
+.log {
+  color: gray;
+  margin: 5px;
+  text-align: center;
+}
+
 .messages,
 .messages__usermessage {
   overflow: hidden;
@@ -6,3 +67,49 @@
   float: left;
   margin-right: 10px;
 }
+
+
+.chatArea {
+  height: 100%;
+  padding-bottom: 100px;
+}
+
+.chatMsg {
+  height: 100%;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 10px 20px 10px 20px;
+}
+
+.chatBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 120px;
+}
+
+.typing {
+  position: absolute;
+  top: 0;
+  height: 30px;
+}
+
+.messagesForm {
+  position: absolute;
+  bottom: 0;
+  border: 10px solid #000;
+  width: 100%;
+  height: 60px;
+}
+.messagesForm input {
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  outline: none;
+  border: 0;
+}
+
+
+
