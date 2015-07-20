@@ -3,27 +3,25 @@ import ChatPage from './ChatPage';
 import AppStore from '../stores/AppStore';
 import * as AppActions from '../actions/AppActions';
 
-const LoginPage = React.createClass({
+export default class LoginPage {
+  constructor() {
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+  }
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleOnSubmit}>
-          <div>Nick Name</div>
-          <input ref='name'/>
-          <button type="submit">Submit</button>
+      <div className='loginPage'>
+        <form className='loginPage__form' onSubmit={this.handleOnSubmit}>
+          <h3 className='title'>What is your nickname?</h3>
+          <input ref='name' autoFocus/>
         </form>
       </div>
     );
-  },
+  }
 
   handleOnSubmit(e) {
     let name = this.refs.name.getDOMNode().value;
     AppActions.userLogin(name);
     e.preventDefault();
   }
-
-});
-
-export default LoginPage;
-
+}

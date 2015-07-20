@@ -1,19 +1,12 @@
-import React, { Component } from 'react';
-import AppStore from '../stores/AppStore';
-import * as AppActions from '../actions/AppActions';
+import React from 'react';
 
-const TypingUsers = React.createClass({
-
+export default class TypingUsers {
   render() {
     let typingUsers = this.props.typingUsers;
-    console.log('typing users', typingUsers);
 
     return (
       <p>{typingUsers.join(', ') + ' typing'}</p>
     );
   }
-
-});
-
-export default TypingUsers;
+}
 
