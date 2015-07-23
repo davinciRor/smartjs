@@ -48,21 +48,29 @@ socket.on('user left', function(data) {
 });
 
 socket.on('new message', function(msg) {
-  let message = WebApiUtils.checkMessage(msg);
-  let images;
-
-  if(message) {
-    images = checkLinks(message);
-  }
-
-  AppDispatcher.dispatch({
-    type: ActionTypes.CHAT_UPDATE,
-    data: {
-      username: msg.username,
-      text: msg.message,
-      links: images
-    }
-  });
+  WebApiUtils.checkMessage(msg)
+    .then(
+      result => {
+        AppDispatcher.dispatch({
+          type: ActionTypes.CHAT_UPDATE,
+          data: {
+            username: msg.username,
+            text: msg.message,
+            links: result
+          }
+        });
+      },
+      error => {
+        AppDispatcher.dispatch({
+          type: ActionTypes.CHAT_UPDATE,
+          data: {
+            username: msg.username,
+            text: msg.message,
+            links: null
+          }
+        });
+      }
+    )
 });
 
 socket.on('typing', function(username) {
@@ -78,15 +86,6 @@ socket.on('stop typing', function(username) {
     data: username
   });
 });
-
-
-function checkLinks(link) {
-  let image = new Image(400);
-  image.src = link;
-
-  return image.complete ? [image] : [];
-}
-
 
 AppDispatcher.register(
 
