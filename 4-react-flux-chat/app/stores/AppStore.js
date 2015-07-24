@@ -1,102 +1,95 @@
+import Store from '.';
 import ActionTypes from '../constants/ActionTypes';
-import Store from '../utils/StoreUtils';
 
-const AppStore = new Store({
-  _state: {
-    name: null,
-    messages: [],
-    typingUsers: [],
-    numUsers: 0
+class AppStore extends Store {
+  constructor() {
+    super();
+
+    this._state = {
+      name: '',
+      messages: [],
+      typingUsers: [],
+      numUsers: 0
+    }
   }
-});
 
-AppStore.bindActions(ActionTypes.USER_LOGINED, (action, state) => {
-  let data = action.data;
+  getState() {
+    return this._state;
+  }
 
-  state.name = data.name;
+  [ActionTypes.USER_LOGINED]({ data }) {
+    this._state.name = data.name;
+    this.emitChange();
+  }
 
-  AppStore.emitChange();
-});
+  [ActionTypes.SERVER_USER_LOGINED]({ data }) {
+    this._state.numUsers = data.numUsers;
+    this.emitChange();
+  }
 
-AppStore.bindActions(ActionTypes.SERVER_USER_LOGINED, (action, state) => {
-  let data = action.data;
+  [ActionTypes.SERVER_USER_JOINED]({ data }) {
+    this._state.messages.push({
+      id: 'joined',
+      username: data.username,
+      numUsers: data.numUsers
+    });
 
-  state.numUsers = data.numUsers;
+    this.emitChange();
+  }
 
-  AppStore.emitChange();
-});
+  [ActionTypes.SERVER_USER_LEFT]({ data }) {
+    this._state.messages.push({
+      id: 'left',
+      username: data.username,
+      numUsers: data.numUsers
+    });
 
-AppStore.bindActions(ActionTypes.SERVER_USER_JOINED, (action, state) => {
-  let data = action.data;
+    this.emitChange();
+  }
 
-  state.messages.push({
-    id: 'joined',
-    username: data.username,
-    numUsers: data.numUsers
-  });
-
-  AppStore.emitChange();
-});
-
-AppStore.bindActions(ActionTypes.SERVER_USER_LEFT, (action, state) => {
-  let data = action.data;
-
-  state.messages.push({
-    id: 'left',
-    username: data.username,
-    numUsers: data.numUsers
-  });
-
-  AppStore.emitChange();
-});
-
-AppStore.bindActions(ActionTypes.MSG_SENDED, (action, state) => {
-  let data = action.data;
-
-    state.messages.push({
-      username: state.name,
+  [ActionTypes.MSG_SENDED]({ data }) {
+    this._state.messages.push({
+      username: this._state.name,
       message: {
         text: data.msg
       }
     });
 
-  AppStore.emitChange();
-});
-
-AppStore.bindActions(ActionTypes.CHAT_UPDATE, (action, state) => {
-  let data = action.data;
-  let username = data.username;
-  let message = data.message;
-
-  state.messages.push({
-    username: username,
-    message: data
-  });
-
-  AppStore.emitChange();
-});
-
-AppStore.bindActions(ActionTypes.SERVER_START_TYPING, (action, state) => {
-  let data = action.data;
-  let username = data.username;
-
-  if (state.typingUsers.indexOf(username) === -1) {
-    state.typingUsers.push(username);
+    this.emitChange();
   }
 
-  AppStore.emitChange();
-});
+  [ActionTypes.CHAT_UPDATE]({ data }) {
+    let username = data.username;
+    let message = data.message;
 
-AppStore.bindActions(ActionTypes.SERVER_STOP_TYPING, (action, state) => {
-  let data = action.data;
-  let username = data.username;
-  let userIndex = state.typingUsers.indexOf(username);
+    this._state.messages.push({
+      username: username,
+      message: data
+    });
 
-  if (userIndex !== -1) {
-    state.typingUsers.splice(userIndex, 1);
+    this.emitChange();
   }
 
-  AppStore.emitChange();
-});
+  [ActionTypes.SERVER_START_TYPING]({ data }) {
+    let username = data.username;
 
-export default AppStore;
+    if (this._state.typingUsers.indexOf(username) === -1) {
+      this._state.typingUsers.push(username);
+    }
+
+    this.emitChange();
+  }
+
+  [ActionTypes.SERVER_STOP_TYPING]({ data }) {
+    let username = data.username;
+    let userIndex = this._state.typingUsers.indexOf(username);
+
+    if (userIndex !== -1) {
+      this._state.typingUsers.splice(userIndex, 1);
+    }
+
+    this.emitChange();
+  }
+}
+
+export default new AppStore;
