@@ -4,30 +4,38 @@ import * as WebApiUtils from './WebApiUtils';
 
 let socket = io.connect('http://ex1.smartjs.academy/');
 
-function addUser(user) {
-  socket.emit('add user', user);
+let Api = {
+  [ActionTypes.USER_LOGINED]({ data }) {
+    socket.emit('add user', data.name);
+  },
+
+  [ActionTypes.MSG_SENDED]({ data }) {
+    socket.emit('new message', data.msg);
+  },
+
+  [ActionTypes.USER_START_TYPING]({ data }) {
+    socket.emit('typing', data.name);
+  },
+
+  [ActionTypes.USER_STOP_TYPING]({ data }) {
+    socket.emit('stop typing', data.name);
+  }
 }
 
-function newMessage(msg) {
-  socket.emit('new message', msg);
-}
+AppDispatcher.register(payload => {
+  if(Api[payload.type]) {
+    Api[payload.type](payload);
+  }
+});
 
-function userStartTyping(name) {
-  socket.emit('typing', name);
-}
-
-function userStopTyping(name) {
-  socket.emit('stop typing', name);
-}
-
-socket.on('login', function(numUsers) {
+socket.on('login', numUsers => {
   AppDispatcher.dispatch({
     type: ActionTypes.SERVER_USER_LOGINED,
     data: numUsers
   });
 });
 
-socket.on('user joined', function(data) {
+socket.on('user joined', data => {
   AppDispatcher.dispatch({
     type: ActionTypes.SERVER_USER_JOINED,
     data: {
@@ -37,7 +45,7 @@ socket.on('user joined', function(data) {
   });
 });
 
-socket.on('user left', function(data) {
+socket.on('user left', data => {
   AppDispatcher.dispatch({
     type: ActionTypes.SERVER_USER_LEFT,
     data: {
@@ -47,7 +55,7 @@ socket.on('user left', function(data) {
   });
 });
 
-socket.on('new message', function(msg) {
+socket.on('new message', msg => {
   WebApiUtils.checkMessage(msg)
     .then(
       result => {
@@ -73,44 +81,16 @@ socket.on('new message', function(msg) {
     )
 });
 
-socket.on('typing', function(username) {
+socket.on('typing', username => {
   AppDispatcher.dispatch({
     type: ActionTypes.SERVER_START_TYPING,
     data: username
   });
 });
 
-socket.on('stop typing', function(username) {
+socket.on('stop typing', username => {
   AppDispatcher.dispatch({
     type: ActionTypes.SERVER_STOP_TYPING,
     data: username
   });
 });
-
-AppDispatcher.register(
-
-  function(action) {
-    switch (action.type) {
-
-      case ActionTypes.USER_LOGINED:
-        addUser(action.data.name);
-        break;
-
-      case ActionTypes.MSG_SENDED:
-        newMessage(action.data.msg);
-        break;
-
-      case ActionTypes.USER_START_TYPING:
-        userStartTyping(action.data.name);
-        break;
-
-      case ActionTypes.USER_STOP_TYPING:
-        userStopTyping(action.data.name);
-        break;
-
-      default:
-
-    }
-  }
-
-)
