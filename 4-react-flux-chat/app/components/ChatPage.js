@@ -59,7 +59,7 @@ export default class ChatPage {
     if (this.cancelTypingStop) {
       clearTimeout(this.cancelTypingStop);
     }
-    this.cancelTypingStop = setTimeout(() => AppActions.userStopTyping(this.props.name), 3000);
+    this.cancelTypingStop = setTimeout(() => AppActions.userStopTyping(this.props.name), 1500);
     AppActions.userStartTyping(this.props.name);
   }
 
