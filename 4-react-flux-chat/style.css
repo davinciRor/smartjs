@@ -19,8 +19,21 @@ html, body {
   margin: 0;
   padding: 0;
   line-height: 1.4em;
+  overflow: hidden;
 }
 
+.pages {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.page {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
 
 .loginPage {
   font-size: 18px;
@@ -71,7 +84,7 @@ html, body {
 
 .chatArea {
   height: 100%;
-  padding-bottom: 100px;
+  padding-bottom: 150px;
 }
 
 .chatMsg {
