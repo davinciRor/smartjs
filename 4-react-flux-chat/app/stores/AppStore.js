@@ -1,6 +1,9 @@
 import Store from '.';
 import ActionTypes from '../constants/ActionTypes';
 
+import * as WebApiUtils from '../api/WebApiUtils';
+import co from 'co';
+
 class AppStore extends Store {
   constructor() {
     super();
@@ -60,11 +63,26 @@ class AppStore extends Store {
 
   [ActionTypes.CHAT_UPDATE]({ data }) {
     let username = data.username;
-    let message = data.message;
+    let message = data.text;
+    let messages = this._state.messages;
 
-    this._state.messages.push({
+    let matches = message.match('(?:(?:ht|f)tps?://)?(?:[\\-\\w]+:[\\-\\w]+@)?(?:[0-9a-z][\\-0-9a-z]*[0-9a-z]\\.)+[a-z]{2,6}(?::\\d{1,5})?(?:[?/\\\\#][?!^$.(){}:|=[\\]+\\-/\\\\*;&~#@,%\\wА-Яа-я]*)?');
+
+    if(matches && matches[0]) {
+      WebApiUtils.checkLinks(matches[0])
+        .then(
+          result => {
+            messages[messages.length-1].links = result;
+            this.emitChange();
+          },
+          error => null
+        );
+    }
+
+    messages.push({
       username: username,
-      message: data
+      message: message,
+      links: null
     });
 
     this.emitChange();

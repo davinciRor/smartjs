@@ -3,12 +3,12 @@ import React from 'react';
 export default class ChatMessage {
   render() {
     let msg = this.props.msg;
-    let msgLinks = msg.message.links;
+    let msgLinks = msg.links;
 
     return (
       <div className='messages'>
         <div className='messages__username'>{msg.username} :</div>
-        <div className='messages__usermessage'>{msg.message.text}</div>
+        <div className='messages__usermessage'>{msg.message}</div>
         <div>
           {!!msgLinks && 
             msgLinks.map((link, i) => {

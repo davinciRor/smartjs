@@ -56,29 +56,13 @@ socket.on('user left', data => {
 });
 
 socket.on('new message', msg => {
-  WebApiUtils.checkMessage(msg)
-    .then(
-      result => {
-        AppDispatcher.dispatch({
-          type: ActionTypes.CHAT_UPDATE,
-          data: {
-            username: msg.username,
-            text: msg.message,
-            links: result
-          }
-        });
-      },
-      error => {
-        AppDispatcher.dispatch({
-          type: ActionTypes.CHAT_UPDATE,
-          data: {
-            username: msg.username,
-            text: msg.message,
-            links: null
-          }
-        });
-      }
-    )
+  AppDispatcher.dispatch({
+    type: ActionTypes.CHAT_UPDATE,
+    data: {
+      username: msg.username,
+      text: msg.message
+    }
+  });
 });
 
 socket.on('typing', username => {
