@@ -1,0 +1,31 @@
+{
+  "name": "react-images-grid",
+  "version": "0.0.1",
+  "description": "react-images-grid",
+  "dependencies": {
+    "babel": "5.8.x",
+    "babel-core": "5.8.x",
+    "babel-loader": "5.3.x",
+    "babel-runtime": "5.8.x",
+    "baobab": "2.0.0-dev10",
+    "core-js": "^0.9.6",
+    "emmett": "3.1.x",
+    "flux": "2.0.x",
+    "react": "^0.13.x",
+    "react-router": "^0.13.3",
+    "superagent": "1.2.x"
+  },
+  "devDependencies": {
+    "babel-eslint": "3.1.x",
+    "eslint": "0.24.x",
+    "eslint-plugin-react": "3.0.x",
+    "react-hot-loader": "^1.1.5",
+    "webpack": "1.10.x",
+    "webpack-dev-server": "1.10.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build": "./node_modules/.bin/webpack --config webpack.config.production.js",
+    "lint": "./node_modules/.bin/eslint ."
+  }
+}
