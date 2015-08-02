@@ -1,0 +1,71 @@
+.main {
+  padding-top: 20px;
+}
+
+.table td {
+  padding: 3px;
+}
+
+.carousel {
+  position: relative;
+  width: 855px;
+  margin: 30px auto;
+  padding: 10px 0 10px 35px;
+}
+
+.carousel li {
+  width: 260px;
+  height: 125px;
+}
+
+.carousel img {
+  width: 250px;
+  height: 125px;
+  display: block;
+  margin: 0 auto;
+}
+
+.gallery {
+  width: 780px;
+  overflow: hidden;
+}
+
+.gallery ul {
+  font-size: 0;
+  height: 125px;
+  width: 9999px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: margin-left 300ms;
+}
+
+.gallery li {
+  display: inline-block;
+}
+
+.arrow {
+  position: absolute;
+  top: 60px;
+  padding: 0;
+  border: 0;
+  font-size: 24px;
+  line-height: 24px;
+  display: block;
+  cursor: pointer;
+  outline: none;
+  color: #eee;
+  background: none;
+}
+
+.arrow:hover {
+  color: #ccc;
+}
+
+.prev {
+  left: 7px;
+}
+
+.next {
+  right: 7px;
+}
