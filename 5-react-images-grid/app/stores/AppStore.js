@@ -6,8 +6,8 @@ class AppStore extends Store {
     super();
 
     this._state = {
-      rows: 0,
-      cells: 0,
+      rows: 3,
+      cells: 4,
       images: [],
       carousel: {
         width: 260,
