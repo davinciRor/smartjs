@@ -1,17 +1,17 @@
 import React from 'react';
-import CarouselGallery from './CarouselGallery';
+import CarouselImages from './CarouselImages';
 import * as AppActions from '../actions/AppActions';
 
 export default class Carousel {
 
-  onClickPrev(e) {
+  _onClickPrev(e) {
     let newPosition = Math.min(this._position + this._width * this._count, 0);
     
     AppActions.carouselPrev(newPosition);
     e.preventDefault();
   }
 
-  onClickNext(e) {
+  _onClickNext(e) {
     let newPosition = Math.max(
       this._position - this._width * this._count,
       -this._width * (this._images.length - this._count));
@@ -32,18 +32,18 @@ export default class Carousel {
           <ul className='images' style={{marginLeft: this._position + 'px'}}>
 
             {this._images.map((image, i) => {
-              return <CarouselGallery key={i} image={image}/>
+              return <CarouselImages key={i} image={image}/>
             })}
 
           </ul>
         </div>
 
-        {this._images.length > 3 &&
+        {this._images.length > this._count &&
           <div>
             <button className='arrow prev glyphicon glyphicon-chevron-left'
-                    onClick={this.onClickPrev.bind(this)}></button>
+                    onClick={this._onClickPrev.bind(this)}></button>
             <button className='arrow next glyphicon glyphicon-chevron-right'
-                    onClick={this.onClickNext.bind(this)}></button>
+                    onClick={this._onClickNext.bind(this)}></button>
           </div>        
         }
       </div>
