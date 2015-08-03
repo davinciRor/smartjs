@@ -9,26 +9,28 @@ export default class App extends Component {
   constructor() {
     super();
 
-    this.handleStoresChanged = this.handleStoresChanged.bind(this);
+    this._handleStoresChanged = this._handleStoresChanged.bind(this);
     this.state = AppStore.getState();
   }
 
   componentWillMount() {
-    AppStore.addChangeListener(this.handleStoresChanged);
+    AppStore.addChangeListener(this._handleStoresChanged);
     AppActions.getImages();
   }
 
   componentWillUnmount() {
-    AppStore.removeChangeListener(this.handleStoresChanged);
+    AppStore.removeChangeListener(this._handleStoresChanged);
   }
 
-  handleStoresChanged() {
+  _handleStoresChanged() {
     this.setState(AppStore.getState());
   }
 
   render() {
     let { rows, cells, images } = this.state;
     let { carouselImages, width, count, position } = this.state.carousel;
+
+    if(!images.length) return null;
 
     return (
       <div>
@@ -46,8 +48,8 @@ export default class App extends Component {
           </div>
           <div className='col-md-10'>
             <ImagesGrid cells={cells}
-                rows={rows}
-                images={images}/>
+                        rows={rows}
+                        images={images}/>
           </div>
         </div>
       </div>

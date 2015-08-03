@@ -5,26 +5,27 @@ import * as AppActions from '../actions/AppActions';
 export default class ImagesGrid {
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.cells !== this.props.cells || nextProps.rows !== this.props.rows;
+    return nextProps.cells !== this.props.cells || 
+           nextProps.rows !== this.props.rows;
   }
 
-  renderRows() {
+  _renderRows() {
     let result = [];
     for(let i = 0; i < this.props.rows; i++) {
-      result.push(<tr key={i}>{this.renderCells()}</tr>)
+      result.push(<tr key={i}>{this._renderCells()}</tr>)
     }
     return result;
   }
 
-  renderCells() {
+  _renderCells() {
     let result = [];
     for(let i = 0; i < this.props.cells; i++) {
-      result.push(<td key={i}><Images imageSrc={this.randomImage()}/></td>)
+      result.push(<td key={i}><Images imageSrc={this._randomImage()}/></td>)
     }
     return result;
   }
 
-  randomImage() {
+  _randomImage() {
     let { images } = this.props;
     let rand = Math.floor(Math.random() * (images.length-1 + 1));
     return images[rand];
@@ -34,7 +35,9 @@ export default class ImagesGrid {
     return (
       <div className='table-responsive'>
         <table className='table'>
-          {this.renderRows()}
+          <tbody>
+            {this._renderRows()}
+          </tbody>
         </table>
       </div>
     );
